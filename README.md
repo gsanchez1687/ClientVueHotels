@@ -1,1 +1,1 @@
-![portada](https://raw.githubusercontent.com/gsanchez1687/ClientVueHotels/main/public/img/banner.png)
+![portada](https://raw.githubusercontent.com/gsanchez1687/ClientVueHotels/main/src/assets/banner.png)
