@@ -12,7 +12,7 @@
         <div class="grid col-6 mx-auto mb-3">
             <div class="input-group">
               <select v-model="room_id" name="room" id="room" class="form-control">
-                <option v-for="item, i in this.roomlist" v-bind:value="item.id" v-text="item.name"></option>
+                <option v-for="item, i in this.data" v-bind:value="item.id" v-text="item.name"></option>
               </select>
             </div>
         </div>
@@ -40,21 +40,21 @@
 
 <script>
   import axios from "axios";
-import { showAlert, send } from "../function.js"
+  import { showAlert, send } from "../function.js"
   import { useRoute } from "vue-router";
   export default{
     
     data(){
       return{
        name:null,
-       roomlist:null,
+       data:null,
        room_id:null,
        amount:null,
        amountError:null,
        id:0,
-       urlRoomHotel:'http://127.0.0.1:8001/api/v1/roomhotel',
+       urlRoomHotel:'http://127.0.0.1:8001/api/v1/roomhotel', //Guarda en la tabla room_hotel
        urlHotel:'http://127.0.0.1:8001/api/v1/hotels',
-       urlRoom:'http://127.0.0.1:8001/api/v1/rooms',
+       urlRoom:'http://127.0.0.1:8001/api/v1/rooms', //Consulta la tabla rooms
       }
     },
     mounted(){
@@ -63,11 +63,15 @@ import { showAlert, send } from "../function.js"
       this.urlHotel += '/'+this.id;
 
       axios.get(this.urlHotel).then(resp =>{
+        if(resp.status == 200){
           this.name = resp.data.data.name;
+        }
       });
 
       axios.get(this.urlRoom).then(resp =>{
-          this.roomlist = resp.data.data;
+        if(resp.status == 200){
+          this.data = resp.data.data;
+        }
       })
 
     },
