@@ -51,22 +51,21 @@ export function ConfirmAlert(url,id,tit,ico,message){
   });
 }
 
-export function send(method,param,url,messaje){
+export function send(method,param,url,messaje,location = '/AdminHotel'){
     axios({
         method:method,
         url:url,
         data:param
     }).then( function(resp){
-        let state = resp.status;
-        if(state == 200){
+        if(resp.status == 200){
             showAlert(messaje,'success');
             window.setTimeout( function() {
-                window.location.href='/AdminHotel'
-            },1000);
+                window.location.href = location
+            },2000);
         }else{
-            showAlert('Server not available1','error');
+            showAlert('Server not available','error');
         }
     } ).catch( function(error){
-        showAlert('Server not available2','error');
+        showAlert('Error when saving data','error');
     });
 }

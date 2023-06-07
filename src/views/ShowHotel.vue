@@ -17,21 +17,21 @@
               <th>Nit</th>
               <th>Phone</th>
               <th>Email</th>
-              <th>total number of rooms</th>
+              <th>Total number of rooms</th>
             </tr>
           </thead>
           <tbody>
             <tr v-if="this.loading">
               <td colspan="8"><i class="fas fa-spinner"></i></td>
             </tr>
-            <tr v-else v-for="item, i in this.data" :key="item.id">
-              <td v-text="item.name"></td>
-              <td v-text="item.address"></td>
-              <td v-text="item.city"></td>
-              <td v-text="item.nit"></td>
-              <td v-text="item.phone"></td>
-              <td v-text="item.email"></td>
-              <td v-text="item.amount"></td>
+            <tr v-else>
+              <td v-text="this.data_name"></td>
+              <td v-text="this.data_address"></td>
+              <td v-text="this.data_city"></td>
+              <td v-text="this.data_nit"></td>
+              <td v-text="this.data_phone"></td>
+              <td v-text="this.data_email"></td>
+              <td v-text="this.data_amount"></td>
             </tr>
           </tbody>
         </table>
@@ -80,6 +80,13 @@ export default({
   data(){
       return{
        data:null,
+       data_name:null,
+       data_address:null,
+       data_city:null,
+       data_nit:null,
+       data_phone:null,
+       data_email:null,
+       data_amount:null,
        loading:false,
        urlRoomHotel:'http://127.0.0.1:8001/api/v1/gethotel',
       }
@@ -92,11 +99,19 @@ export default({
 
       axios.get(this.urlRoomHotel).then(resp =>{
         if(resp.status == 200){
-          this.data = resp.data.data;
+          this.data = resp.data.data
+          if(resp.data.data[0]){
+            this.data_name = resp.data.data[0].name;
+            this.data_address = resp.data.data[0].address;
+            this.data_city = resp.data.data[0].city;
+            this.data_nit = resp.data.data[0].nit;
+            this.data_phone = resp.data.data[0].phone;
+            this.data_email = resp.data.data[0].email;
+            this.data_amount = resp.data.data[0].amount;
+          }
           this.loading = false
         }
       });
     },
 })
-
 </script>

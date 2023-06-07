@@ -15,6 +15,7 @@
                 <option v-for="item, i in this.data" v-bind:value="item.id" v-text="item.name"></option>
               </select>
             </div>
+            <div class="text-danger">{{ RoomError }}</div>
         </div>
         
         <div class="grid col-6 mx-auto mb-3">
@@ -51,6 +52,7 @@
        room_id:null,
        amount:null,
        amountError:null,
+       RoomError:null,
        id:0,
        urlRoomHotel:'http://127.0.0.1:8001/api/v1/roomhotel', //Guarda en la tabla room_hotel
        urlHotel:'http://127.0.0.1:8001/api/v1/hotels',
@@ -78,16 +80,21 @@
     methods:{
       saveRoomHotel(){
         event.preventDefault();
+        if(this.room_id == null){
+          this.RoomError = 'Room cannot be empty'
+        }
+
         if(this.amount == null){
           this.amountError ='Amaunt cannot be empty'
         }
-        if(this.amount != null){
+
+        if(this.room_id != null && this.amount != null){
           let param = {
             hotel_id:this.id,
             room_id:this.room_id,
             amount:this.amount
           }
-          send('POST',param,this.urlRoomHotel,'registered room')
+          send('POST',param,this.urlRoomHotel,'registered room','/CreateRoom/'+this.id)
         } 
       }
     },

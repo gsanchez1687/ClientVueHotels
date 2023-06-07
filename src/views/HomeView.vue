@@ -4,3 +4,9 @@
   </div>
     
 </template>
+<style scoped>
+  h1{
+    color: #FFF;
+    font-weight: bold;
+  }
+</style>

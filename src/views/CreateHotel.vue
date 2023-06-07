@@ -54,6 +54,15 @@
 
           <div class="grid col-6 mx-auto mb-3">
             <div class="input-group">
+              <select v-model="city_id" name="city_id" id="city_id" class="form-control">
+                <option v-for="item, i in this.data" v-bind:value="item.id" v-text="item.name"></option>
+              </select>
+            </div>
+            <div class="text-danger">{{ cityError }}</div>
+          </div>
+
+          <div class="grid col-6 mx-auto mb-3">
+            <div class="input-group">
               <router-link class="btn btn-secondary" to="/AdminHotel"><i class="fas fa-backward"></i> Back</router-link>
               <button type="submit" class="btn btn-primary"><i class="far fa-save"></i> Create Hotel</button>
             </div>
@@ -67,12 +76,16 @@
   </template>
 
 <script>
+  import axios from "axios";
   import { showAlert, send } from "../function.js"
   export default{
     
     data(){
       return{
         url:'http://127.0.0.1:8001/api/v1/hotels',
+        urlCity:'http://127.0.0.1:8001/api/v1/city',
+        data:null,
+        city_id:null,
         loading:false,
         name:null,
         address:null,
@@ -85,9 +98,17 @@
         nitError:null,
         emailError:null,
         phoneError:null,
-        amountError:null
+        amountError:null,
+        cityError:null
       }
     },
+    mounted() {
+          axios.get(this.urlCity).then(resp =>{
+          if(resp.status == 200){
+            this.data = resp.data.data;
+          }
+        });
+      },
     methods:{
       saveHotel(){
         event.preventDefault();
@@ -109,10 +130,13 @@
         if(this.amount == null){
           this.amountError = 'Amount cannot be empty'
         }
+        if(this.city_id == null){
+          this.cityError = 'City cannot be empty'
+        }
 
         if(this.name != null && this.address != null && this.nit != null && this.email != null &&  this.phone != null && this.amount != null){
           let param = {
-            city_id:1,
+            city_id:this.city_id,
             department_id:1,
             name:this.name,
             address:this.address,
@@ -124,7 +148,6 @@
           }
           send('POST',param,this.url,'registered hotel');
         }
-
       },
     },
   }
