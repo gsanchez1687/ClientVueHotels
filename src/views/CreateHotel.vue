@@ -82,8 +82,8 @@
     
     data(){
       return{
-        url:'http://127.0.0.1:8001/api/v1/hotels',
-        urlCity:'http://127.0.0.1:8001/api/v1/city',
+        ApiCreateHotel:'http://127.0.0.1:8001/api/v1/hotels',
+        ApiGetCity:'http://127.0.0.1:8001/api/v1/city',
         data:null,
         city_id:null,
         loading:false,
@@ -103,7 +103,7 @@
       }
     },
     mounted() {
-          axios.get(this.urlCity).then(resp =>{
+          axios.get(this.ApiGetCity).then(resp =>{
           if(resp.status == 200){
             this.data = resp.data.data;
           }
@@ -114,6 +114,23 @@
     methods:{
       saveHotel(){
         event.preventDefault();
+        this.validateHotel();
+        if(this.name != null && this.address != null && this.nit != null && this.email != null &&  this.phone != null && this.amount != null){
+          let param = {
+            city_id:this.city_id,
+            department_id:1,
+            name:this.name,
+            address:this.address,
+            nit:this.nit,
+            email:this.email,
+            phone:this.phone,
+            amount:this.amount,
+            status:1
+          }
+          send('POST',param,this.ApiCreateHotel,'The hotel has been registered','/AdminHotel');
+        }
+      },
+      validateHotel(){
         if(this.name == null){
           this.nameError ='Name cannot be empty'
         } 
@@ -135,23 +152,8 @@
         if(this.city_id == null){
           this.cityError = 'City cannot be empty'
         }
-
-        if(this.name != null && this.address != null && this.nit != null && this.email != null &&  this.phone != null && this.amount != null){
-          let param = {
-            city_id:this.city_id,
-            department_id:1,
-            name:this.name,
-            address:this.address,
-            nit:this.nit,
-            email:this.email,
-            phone:this.phone,
-            amount:this.amount,
-            status:1
-          }
-          send('POST',param,this.url,'registered hotel');
-        }
-      },
-    },
+      }
+    }
   }
 
 </script>

@@ -63,31 +63,39 @@
       const route = useRoute();
       this.id = route.params.id;
       this.urlHotel += '/'+this.id;
-
-      axios.get(this.urlHotel).then(resp =>{
-        if(resp.status == 200){
-          this.name = resp.data.data.name;
-        }
-      });
-
-      axios.get(this.urlRoom).then(resp =>{
-        if(resp.status == 200){
-          this.data = resp.data.data;
-        }
-      })
-
+      this.getHotel()
+      this.getRooms()
     },
     methods:{
-      saveRoomHotel(){
-        event.preventDefault();
+        getHotel(){
+          axios.get(this.urlHotel).then(resp =>{
+          if(resp.status == 200){
+            this.name = resp.data.data.name;
+          }
+        }).catch((error) => {
+            showAlert(error.message)
+        });
+      },
+        getRooms(){
+          axios.get(this.urlRoom).then(resp =>{
+          if(resp.status == 200){
+            this.data = resp.data.data;
+          }
+        }).catch((error) => {
+            showAlert(error.message)
+        });
+      },
+      validate(){
         if(this.room_id == null){
           this.RoomError = 'Room cannot be empty'
         }
-
         if(this.amount == null){
           this.amountError ='Amaunt cannot be empty'
         }
-
+      },
+      saveRoomHotel(){
+        event.preventDefault();
+        this.validate()
         if(this.room_id != null && this.amount != null){
           let param = {
             hotel_id:this.id,

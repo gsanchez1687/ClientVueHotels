@@ -59,6 +59,7 @@ import axios from 'axios';
 export default{
   data(){
     return{
+      data:'http://127.0.0.1:8001/api/v1/hotels',
       hotels:null,
       loading:false
     }
@@ -66,7 +67,7 @@ export default{
   methods:{
     getHotels(){
       this.loading = true
-      axios.get('http://127.0.0.1:8001/api/v1/hotels').then(
+      axios.get(this.data).then(
         response => {
           if(response.status == 200){
             this.hotels = response.data.data;
@@ -80,6 +81,6 @@ export default{
   },
   mounted(){
     this.getHotels()
-  }
+  },
 }
 </script>

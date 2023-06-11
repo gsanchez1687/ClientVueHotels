@@ -1,10 +1,8 @@
 import Swal from "sweetalert2";
 import axios from "axios";
 
-export function showAlert(title,icon,foco=''){
-    if(foco!=''){
-        document.getElementById(foco).focus();
-    }
+export function showAlert(title,icon,location){
+    
     Swal.fire({
         title:title,
         icon:icon,
@@ -13,7 +11,11 @@ export function showAlert(title,icon,foco=''){
             popup:'animated zoonIn'
         },
         buttonsStyling:false
-    });
+    }).then( (response) => {
+        if(response.isConfirmed){
+            window.location.href = location
+        }
+    })
 }
 
 export function ConfirmAlert(url,id,tit,ico,message){
@@ -32,12 +34,14 @@ export function ConfirmAlert(url,id,tit,ico,message){
     showCancelButton:true,
     confirmButtonText:'<i class="fas fa-check"></i> Yes, Delete',
     cancelButtonText:'<i class="fas fa-ban"></i> Cancel'
-  }).then( (res)=>{
-    if(res.isConfirmed){
+  }).then( (response)=>{
+    if(response.isConfirmed){
         send('DELETE',{id:id},urlApi,'has been removed');
     }else{
         showAlert('operation cancelled','info');
     }
+  }).catch((error) => {
+    showAlert(error.message)
   })
 
   Swal.fire({
@@ -56,16 +60,13 @@ export function send(method,param,url,messaje,location = '/AdminHotel'){
         method:method,
         url:url,
         data:param
-    }).then( function(resp){
-        if(resp.status == 200){
-            showAlert(messaje,'success');
-            window.setTimeout( function() {
-                window.location.href = location
-            },2000);
+    }).then( function(response){
+        if(response.status == 200){
+            showAlert(messaje,'success',location);
         }else{
-            showAlert('Server not available','error');
+            showAlert('Server not available','error',location);
         }
-    } ).catch( function(error){
-        showAlert('Error when saving data','error');
+    }).catch((error) => {
+        showAlert(error.message)
     });
 }
