@@ -102,7 +102,7 @@
             room_id:this.room_id,
             amount:this.amount
           }
-          send('POST',param,this.urlRoomHotel,'registered room','/CreateRoom/'+this.id)
+          send('POST',param,this.urlRoomHotel,'Room registered for the hotel: '+this.name,'/CreateRoom/'+this.id)
         } 
       }
     },
