@@ -41,9 +41,9 @@
               <td v-text="hotel.amount"></td>
               <td v-text="new Date(hotel.created_at).toLocaleDateString()"></td>
               <td v-text="new Date(hotel.updated_at).toLocaleDateString()"></td>
-              <td><router-link :to="{path:'ShowHotel/'+hotel.id}" class="btn btn-primary">View</router-link></td>
-              <td><router-link :to="{path:'UpdateHotel/'+hotel.id}" class="btn btn-primary">Update</router-link></td>
-              <td><router-link :to="{path:'CreateRoom/'+hotel.id}" class="btn btn-primary">Add Room</router-link></td>
+              <td><router-link :to="{path:'ShowHotel/'+hotel.id}" class="btn btn-outline-dark"><i class="fas fa-eye"></i></router-link></td>
+              <td><router-link :to="{path:'UpdateHotel/'+hotel.id}" class="btn btn-outline-dark"><i class="fas fa-pencil-alt"></i></router-link></td>
+              <td><router-link :to="{path:'CreateRoom/'+hotel.id}" class="btn btn-outline-dark"><i class="fas fa-plus-square"></i></router-link></td>
             </tr>
           </tbody>
         </table>
