@@ -111,7 +111,9 @@ export default({
           }
           this.loading = false
         }
-      });
+      }).catch((error) => {
+          showAlert(error.message)
+        })
     },
 })
 </script>

@@ -28,7 +28,7 @@
           </thead>
           <tbody class="table-group-divider" id="content">
             <tr v-if="this.loading">
-              <td colspan="9"><i class="fas fa-spinner"></i></td>
+              <td colspan="13"><i class="fas fa-spinner"></i></td>
             </tr>
             <tr v-else v-for="hotel, i in this.hotels" :key="hotel.id">
               <td v-text="(i+1)"></td>
@@ -54,6 +54,7 @@
 </template>
 
 <script>
+import { showAlert } from '@/function';
 import axios from 'axios';
 export default{
   data(){
@@ -67,8 +68,13 @@ export default{
       this.loading = true
       axios.get('http://127.0.0.1:8001/api/v1/hotels').then(
         response => {
-          this.hotels = response.data.data;
-          this.loading = false;
+          if(response.status == 200){
+            this.hotels = response.data.data;
+            this.loading = false;
+          }
+          
+        }).catch((error) => {
+          showAlert(error.message)
         })
     }
   },

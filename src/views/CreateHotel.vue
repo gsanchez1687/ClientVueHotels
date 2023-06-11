@@ -107,7 +107,9 @@
           if(resp.status == 200){
             this.data = resp.data.data;
           }
-        });
+          }).catch((error) => {
+            showAlert(error.message)
+          })
       },
     methods:{
       saveHotel(){
