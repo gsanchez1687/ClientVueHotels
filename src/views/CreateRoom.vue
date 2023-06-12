@@ -90,7 +90,7 @@
           this.RoomError = 'Room cannot be empty'
         }
         if(this.amount == null){
-          this.amountError ='Amaunt cannot be empty'
+          this.amountError ='Amount cannot be empty'
         }
       },
       saveRoomHotel(){
